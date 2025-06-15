@@ -22,7 +22,7 @@ st.set_page_config(
 
 # Add navigation button at the top
 if st.sidebar.button("← Back to Main App", use_container_width=True):
-    st.switch_page("../app.py")
+    st.switch_page("app.py")
 
 # --- Configuration ---
 try:
@@ -448,4 +448,4 @@ with st.sidebar:
 
 # The chatbot will be called from app.py
 if __name__ == "__main__":
-    run_chatbot() 
+    pass  # No need to call run_chatbot() since the code runs directly 
