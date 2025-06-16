@@ -14,9 +14,6 @@ def ensure_playwright_browser():
         except Exception as e:
             print(f"Playwright browser installation failed: {e}")
 
-# Ensure Playwright browser is installed
-ensure_playwright_browser()
-
 # Set page config must be the first Streamlit command
 st.set_page_config(
     page_title="LEOPARTS",
@@ -126,10 +123,6 @@ def main():
         try:
             # Clear the main content area
             st.empty()
-            
-            # Ensure Playwright is installed
-            if 'playwright_installed' not in st.session_state:
-                ensure_playwright_browser()
             
             # Run the extraction app
             extraction_main()

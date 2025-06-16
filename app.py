@@ -8,13 +8,13 @@ sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 # app.py
 import streamlit as st
 
-# Set page config first, before any other Streamlit commands
-st.set_page_config(
-    page_title="Connector Data Extraction",
-    page_icon="🔌",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
+# Remove the page config since it's handled by main.py
+# st.set_page_config(
+#     page_title="Connector Data Extraction",
+#     page_icon="🔌",
+#     layout="wide",
+#     initial_sidebar_state="expanded"
+# )
 
 import os
 import time
@@ -60,8 +60,10 @@ def install_playwright_browsers():
         logger.error(f"An error occurred during Playwright browser installation: {e}", exc_info=True)
         st.warning(f"An error occurred installing Playwright browsers: {e}. Web scraping may fail.")
 
-install_playwright_browsers() # Run the installation check on script start
-# ----------------------------------------------------
+# Only install if not already installed
+if 'playwright_installed' not in st.session_state:
+    install_playwright_browsers()
+    st.session_state.playwright_installed = True
 
 # Import project modules
 import config
@@ -175,28 +177,25 @@ def main():
     # Initialize session state
     if 'retriever' not in st.session_state:
         st.session_state.retriever = None
-    # Add states for BOTH chains
     if 'pdf_chain' not in st.session_state:
         st.session_state.pdf_chain = None
     if 'web_chain' not in st.session_state:
         st.session_state.web_chain = None
-    # Remove old single chain state
-    # if 'extraction_chain' not in st.session_state:
-    #     st.session_state.extraction_chain = None
     if 'processed_files' not in st.session_state:
-        st.session_state.processed_files = [] # Store names of processed files
+        st.session_state.processed_files = []
     if 'evaluation_results' not in st.session_state:
-        st.session_state.evaluation_results = [] # List to store detailed results per field
+        st.session_state.evaluation_results = []
     if 'extraction_performed' not in st.session_state:
         st.session_state.extraction_performed = False
     if 'scraped_table_html_cache' not in st.session_state:
-        st.session_state.scraped_table_html_cache = None # Cache for scraped HTML for the current part number
+        st.session_state.scraped_table_html_cache = None
     if 'current_part_number_scraped' not in st.session_state:
-        st.session_state.current_part_number_scraped = None # Track which part number was last scraped for
-    # Initialize session state for page navigation
-    if 'current_page' not in st.session_state:
-        st.session_state.current_page = "extraction"
+        st.session_state.current_part_number_scraped = None
 
+    # Add a header for the extraction page
+    st.markdown("<h1 style='text-align: center;'>Document Extraction</h1>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center;'>Upload and process your documents to extract information</p>", unsafe_allow_html=True)
+    
     # Initialize embeddings
     try:
         logger.info("Attempting to initialize embedding function...")
