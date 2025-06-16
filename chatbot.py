@@ -1,4 +1,3 @@
-
 # Groq API key
 GROQ_API_KEY = "your_groq_api_key_here"
 import streamlit as st
@@ -13,14 +12,6 @@ import contextlib
 from supabase import create_client, Client
 from sentence_transformers import SentenceTransformer
 from groq import Groq
-
-# Initialize Streamlit
-st.set_page_config(
-    page_title="LEOparts Chatbot",
-    page_icon="🤖",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
 
 # --- Configuration ---
 try:
