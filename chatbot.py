@@ -358,6 +358,21 @@ def main():
     """Main function to handle the chatbot interface"""
     st.title("💬 Ask Questions")
     
+    # Add a sidebar with information about the models being used
+    with st.sidebar:
+        st.header("Model Information")
+        st.markdown("""
+        - **SQL Generation Model**: qwen-qwq-32b
+        - **Answer Generation Model**: qwen-qwq-32b
+        - **Embedding Model**: sentence-transformers/all-MiniLM-L6-v2
+        """)
+        
+        st.header("Search Parameters")
+        st.markdown("""
+        - **Vector Similarity Threshold**: 0.4
+        - **Vector Match Count**: 3
+        """)
+    
     # Initialize chat history
     if "messages" not in st.session_state:
         st.session_state.messages = []
@@ -413,19 +428,4 @@ def main():
         st.session_state.messages.append({"role": "assistant", "content": response})
 
 if __name__ == "__main__":
-    main()
-
-# Add a sidebar with information about the models being used
-with st.sidebar:
-    st.header("Model Information")
-    st.markdown("""
-    - **SQL Generation Model**: qwen-qwq-32b
-    - **Answer Generation Model**: qwen-qwq-32b
-    - **Embedding Model**: sentence-transformers/all-MiniLM-L6-v2
-    """)
-    
-    st.header("Search Parameters")
-    st.markdown("""
-    - **Vector Similarity Threshold**: 0.4
-    - **Vector Match Count**: 3
-    """) 
+    main() 
